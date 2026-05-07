@@ -1,0 +1,69 @@
+package top.nustar.pixel.minecraft.yaml.component.api.provider;
+
+import org.jetbrains.annotations.Nullable;
+import top.nustar.pixel.minecraft.yaml.component.api.ComponentContext;
+import top.nustar.pixel.minecraft.yaml.component.common.Lazy;
+import top.nustar.pixel.minecraft.yaml.component.common.Validation;
+
+import java.util.Map;
+import java.util.function.Function;
+import java.util.function.Predicate;
+
+/**
+ * @author NuStar
+ * @since 2026/5/8 02:22
+ */
+public enum ProviderType {
+    NI(s -> s.equals("NI") || s.equals("NEIGEITEMS"),
+            ItemProvider.Holder::getItemProvider,
+            map -> {
+                String itemId = map.get("itemId");
+                Validation.notEmpty(itemId, "itemId");
+                return itemId;
+            }),
+
+    MM(s -> s.equals("MM") || s.equals("MYTHICMOBS"),
+            ItemProvider.Holder::getItemProvider,
+            map -> {
+                String itemId = map.get("itemId");
+                Validation.notEmpty(itemId, "itemId");
+                return itemId;
+            }),
+
+    Vault(s -> s.equals("VAULT"), null, null),
+
+    HamsterCurrency(s -> s.equals("HAMSTERCURRENCY"), null, null),
+    ;
+
+    private final Predicate<String> predicate;
+    private final Lazy<MaterialConsumer> materialConsumerLazy;
+    private final Function<Map<String, String>, String> materialIdFunction;
+
+    ProviderType(Predicate<String> predicate, Function<ProviderType, MaterialConsumer> consumerLoader, Function<Map<String, String>, String> materialIdFunction) {
+        this.predicate = s -> {
+            String upperCase = s.toUpperCase();
+
+            return predicate.test(upperCase);
+        };
+        this.materialConsumerLazy = Lazy.of(() -> consumerLoader.apply(this));
+        this.materialIdFunction = materialIdFunction;
+    }
+
+    @Nullable
+    public static ProviderType of(String name) {
+        for (ProviderType value : values()) {
+            if (value.predicate.test(name)) {
+                return value;
+            }
+        }
+        return null;
+    }
+
+    public boolean check(ComponentContext<?> context, Map<String, String> metaData, int amount) {
+        return materialConsumerLazy.get().check(context, materialIdFunction.apply(metaData), amount);
+    }
+
+    public void take(ComponentContext<?> context, Map<String, String> metaData, int amount) {
+        materialConsumerLazy.get().take(context, materialIdFunction.apply(metaData), amount);
+    }
+}

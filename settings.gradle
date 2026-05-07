@@ -1,0 +1,6 @@
+rootProject.name = 'pixel-minecraft-yaml-component'
+
+include(":api")
+include(":platform:spigot")
+include(":platform:nukkit")
+include(":common")
