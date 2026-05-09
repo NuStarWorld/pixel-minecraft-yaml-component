@@ -1,12 +1,11 @@
 package top.nustar.pixel.minecraft.yaml.component.spigot.component;
 
 import lombok.Getter;
-import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import top.nustar.pixel.minecraft.yaml.component.api.ComponentContext;
-import top.nustar.pixel.minecraft.yaml.component.api.LineExpression;
-import top.nustar.pixel.minecraft.yaml.component.api.LineExpressionResult;
+import top.nustar.pixel.minecraft.yaml.component.api.expression.LineExpressionCache;
+import top.nustar.pixel.minecraft.yaml.component.api.expression.LineExpressionResult;
 import top.nustar.pixel.minecraft.yaml.component.api.component.NeedMaterialComponent;
 import top.nustar.pixel.minecraft.yaml.component.api.component.annotation.ComponentMetaData;
 import top.nustar.pixel.minecraft.yaml.component.api.provider.ProviderType;
@@ -21,20 +20,13 @@ import java.util.Map;
  */
 @ComponentMetaData(name = "need-material")
 @Getter
-public class NeedMaterialComponentImpl implements NeedMaterialComponent {
+public class NeedMaterialComponentImpl extends AbstractComponent implements NeedMaterialComponent {
 
-    private final ProviderType type;
+    protected final ProviderType type;
 
-    private final String amountExpression;
+    private final LineExpressionCache<Player> amountExpression;
 
-    private final LineExpression<Player> amount = ((componentContext, expression)
-            -> LineExpression
-            .simple(componentContext, expression)
-            .applyCalculator(componentContext, expression, (string)
-                    -> PlaceholderAPI.setPlaceholders(componentContext.getHolder(), string))
-    );
-
-    private final Map<String, String> metaData = new HashMap<>();
+    protected final Map<String, String> metaData = new HashMap<>();
 
     public NeedMaterialComponentImpl(ConfigurationSection section) {
         Validation.notNull(section, "section");
@@ -42,7 +34,7 @@ public class NeedMaterialComponentImpl implements NeedMaterialComponent {
         Validation.notNull(section.getString("amount"), "amount");
         Validation.notNull(section.getConfigurationSection("meta-data"), "meta-data");
         this.type = ProviderType.of(section.getString("type"));
-        this.amountExpression = section.getString("amount");
+        this.amountExpression = LineExpressionCache.of(section.getString("amount"), lineExpression);
         for (Map.Entry<String, Object> metaDataEntry : section.getConfigurationSection("meta-data").getValues(false).entrySet()) {
             metaData.put(metaDataEntry.getKey(), metaDataEntry.getValue().toString());
         }
@@ -63,7 +55,7 @@ public class NeedMaterialComponentImpl implements NeedMaterialComponent {
     @SuppressWarnings("unchecked")
     @Override
     public LineExpressionResult getAmount(ComponentContext<?> context) {
-        return LineExpressionResult.of(amount.calculate((ComponentContext<Player>) context, amountExpression));
+        return amountExpression.calculate((ComponentContext<Player>) context);
     }
 
 }

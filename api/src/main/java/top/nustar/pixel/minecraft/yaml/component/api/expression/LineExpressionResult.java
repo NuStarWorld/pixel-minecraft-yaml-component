@@ -1,5 +1,6 @@
-package top.nustar.pixel.minecraft.yaml.component.api;
+package top.nustar.pixel.minecraft.yaml.component.api.expression;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.util.function.Supplier;
@@ -10,7 +11,7 @@ import java.util.function.Supplier;
  */
 @RequiredArgsConstructor
 public class LineExpressionResult {
-
+    @Getter
     private final String calculateResult;
 
     public static LineExpressionResult of(String calculateResult) {

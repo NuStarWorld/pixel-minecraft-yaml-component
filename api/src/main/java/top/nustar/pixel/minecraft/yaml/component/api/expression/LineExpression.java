@@ -1,4 +1,6 @@
-package top.nustar.pixel.minecraft.yaml.component.api;
+package top.nustar.pixel.minecraft.yaml.component.api.expression;
+
+import top.nustar.pixel.minecraft.yaml.component.api.ComponentContext;
 
 import java.util.Map;
 import java.util.function.Function;

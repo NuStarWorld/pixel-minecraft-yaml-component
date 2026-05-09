@@ -1,7 +1,7 @@
 package top.nustar.pixel.minecraft.yaml.component.api.component;
 
 import top.nustar.pixel.minecraft.yaml.component.api.ComponentContext;
-import top.nustar.pixel.minecraft.yaml.component.api.LineExpressionResult;
+import top.nustar.pixel.minecraft.yaml.component.api.expression.LineExpressionResult;
 import top.nustar.pixel.minecraft.yaml.component.api.provider.ProviderType;
 
 import java.util.Map;
