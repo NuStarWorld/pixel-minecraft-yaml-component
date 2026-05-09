@@ -7,7 +7,7 @@ import top.nustar.pixel.minecraft.yaml.component.api.LineExpressionResult;
  * @author NuStar
  * @since 2026/5/9 18:26
  */
-public interface LambdaComponent {
+public interface LambdaComponent<T> {
 
     /**
      * 执行组件
@@ -15,5 +15,5 @@ public interface LambdaComponent {
      * @param context 组件上下文
      * @return 执行结果
      */
-    LineExpressionResult execute(ComponentContext<?> context);
+    LineExpressionResult execute(ComponentContext<T> context);
 }
