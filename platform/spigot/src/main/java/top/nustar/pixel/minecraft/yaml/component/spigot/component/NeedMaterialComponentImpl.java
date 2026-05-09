@@ -27,15 +27,12 @@ public class NeedMaterialComponentImpl implements NeedMaterialComponent {
 
     private final String amountExpression;
 
-    private final LineExpression<Player> amount = ((player, expression, placeholderMap) -> {
-       String replace = expression;
-
-        for (Map.Entry<String, String> placeholder : placeholderMap.entrySet()) {
-            replace = replace.replace(placeholder.getKey(), placeholder.getValue());
-        }
-
-        return PlaceholderAPI.setPlaceholders(player, replace);
-    });
+    private final LineExpression<Player> amount = ((componentContext, expression)
+            -> LineExpression
+            .simple(componentContext, expression)
+            .applyCalculator(componentContext, expression, (string)
+                    -> PlaceholderAPI.setPlaceholders(componentContext.getHolder(), string))
+    );
 
     private final Map<String, String> metaData = new HashMap<>();
 
@@ -63,9 +60,10 @@ public class NeedMaterialComponentImpl implements NeedMaterialComponent {
         type.take(context, metaData, amount);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public LineExpressionResult getAmount(ComponentContext<?> context) {
-        return LineExpressionResult.of(amount.calculate((Player) context.getHolder(), amountExpression, metaData));
+        return LineExpressionResult.of(amount.calculate((ComponentContext<Player>) context, amountExpression));
     }
 
 }
