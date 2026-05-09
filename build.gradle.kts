@@ -103,8 +103,8 @@ subprojects {
                 authentication {
                     create<BasicAuthentication>("basic")
                 }
-                val releasesRepoUrl = uri("https://maven.nustar.top/repository/pixel-releases/")
-                val snapshotsRepoUrl = uri("https://maven.nustar.top/repository/pixel-snapshot/")
+                val releasesRepoUrl = uri("https://maven.nustar.top/repository/nustar-releases/")
+                val snapshotsRepoUrl = uri("https://maven.nustar.top/repository/nustar-snapshots/")
                 url = if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl
             }
             mavenLocal()
