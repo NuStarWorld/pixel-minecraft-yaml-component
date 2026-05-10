@@ -9,7 +9,7 @@ import top.nustar.pixel.minecraft.yaml.component.api.component.annotation.Compon
 public interface YamlComponent {
 
     default String getName() {
-        return this.getClass().getAnnotation(ComponentMetaData.class).name();
+        return this.getClass().getAnnotation(ComponentMetaData.class).type().getConfigKey();
     }
 
 

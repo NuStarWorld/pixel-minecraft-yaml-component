@@ -2,7 +2,7 @@ package top.nustar.pixel.minecraft.yaml.component.api.component;
 
 import top.nustar.pixel.minecraft.yaml.component.api.ComponentContext;
 import top.nustar.pixel.minecraft.yaml.component.api.expression.LineExpressionResult;
-import top.nustar.pixel.minecraft.yaml.component.api.provider.ProviderType;
+import top.nustar.pixel.minecraft.yaml.component.api.provider.MaterialProviderType;
 
 import java.util.Map;
 
@@ -16,7 +16,7 @@ public interface NeedMaterialComponent extends YamlComponent {
      * 获取材料消耗提供者类型
      * @return 材料消耗提供者类型
      */
-    ProviderType getType();
+    MaterialProviderType getType();
 
     /**
      * 获取材料消耗

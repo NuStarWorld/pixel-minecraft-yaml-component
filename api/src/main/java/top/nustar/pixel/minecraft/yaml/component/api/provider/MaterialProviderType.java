@@ -13,7 +13,7 @@ import java.util.function.Predicate;
  * @author NuStar
  * @since 2026/5/8 02:22
  */
-public enum ProviderType {
+public enum MaterialProviderType {
     NI(s -> s.equals("NI") || s.equals("NEIGEITEMS"),
             ItemProvider.Holder::getItemProvider,
             map -> {
@@ -39,7 +39,7 @@ public enum ProviderType {
     private final Lazy<MaterialConsumer> materialConsumerLazy;
     private final Function<Map<String, String>, String> materialIdFunction;
 
-    ProviderType(Predicate<String> predicate, Function<ProviderType, MaterialConsumer> consumerLoader, Function<Map<String, String>, String> materialIdFunction) {
+    MaterialProviderType(Predicate<String> predicate, Function<MaterialProviderType, MaterialConsumer> consumerLoader, Function<Map<String, String>, String> materialIdFunction) {
         this.predicate = s -> {
             String upperCase = s.toUpperCase();
 
@@ -50,8 +50,8 @@ public enum ProviderType {
     }
 
     @Nullable
-    public static ProviderType of(String name) {
-        for (ProviderType value : values()) {
+    public static MaterialProviderType of(String name) {
+        for (MaterialProviderType value : values()) {
             if (value.predicate.test(name)) {
                 return value;
             }

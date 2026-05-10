@@ -15,9 +15,9 @@ public interface ItemProvider extends EnvironmentAware, MaterialConsumer {
 
     class Holder {
 
-        private static volatile Map<ProviderType, ItemProvider> itemProviders;
+        private static volatile Map<MaterialProviderType, ItemProvider> itemProviders;
 
-        public static ItemProvider getItemProvider(ProviderType type) {
+        public static ItemProvider getItemProvider(MaterialProviderType type) {
             if (itemProviders == null) {
                 synchronized (Holder.class) {
                     if (itemProviders == null) {
@@ -45,5 +45,5 @@ public interface ItemProvider extends EnvironmentAware, MaterialConsumer {
 
     <T> boolean isItem(T item, String itemId);
 
-    ProviderType getType();
+    MaterialProviderType getType();
 }

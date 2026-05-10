@@ -6,7 +6,7 @@ import org.bukkit.inventory.ItemStack;
 import pers.neige.neigeitems.item.ItemInfo;
 import pers.neige.neigeitems.manager.ItemManager;
 import top.nustar.pixel.minecraft.yaml.component.api.ComponentContext;
-import top.nustar.pixel.minecraft.yaml.component.api.provider.ProviderType;
+import top.nustar.pixel.minecraft.yaml.component.api.provider.MaterialProviderType;
 
 /**
  * @author NuStar
@@ -39,7 +39,7 @@ public class NeigeItemProvider extends AbstractItemProvider {
     }
 
     @Override
-    public ProviderType getType() {
-        return ProviderType.NI;
+    public MaterialProviderType getType() {
+        return MaterialProviderType.NI;
     }
 }

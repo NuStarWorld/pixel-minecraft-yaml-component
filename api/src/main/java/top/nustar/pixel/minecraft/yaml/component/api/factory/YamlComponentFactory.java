@@ -1,6 +1,7 @@
 package top.nustar.pixel.minecraft.yaml.component.api.factory;
 
 import top.nustar.pixel.minecraft.yaml.component.api.component.YamlComponent;
+import top.nustar.pixel.minecraft.yaml.component.api.component.annotation.ComponentMetaData;
 import top.nustar.pixel.minecraft.yaml.component.common.SafeServiceLoader;
 import top.nustar.pixel.minecraft.yaml.component.common.Validation;
 
@@ -47,9 +48,18 @@ public interface YamlComponentFactory<C> {
 
     /**
      * 注册一个组件构建器
-     * @param name 组件名称
+     * @param clazz 组件类
      * @param builder 组件构建器
      * @param <T> 组件类型
      */
-    <T extends YamlComponent> void registerComponent(String name, Function<C, T> builder);
+    <T extends YamlComponent> void registerComponent(Class<T> clazz, Function<C, T> builder);
+
+    <T extends YamlComponent> void registerComponent(String configKey, Function<C, T> builder);
+
+    default <T extends YamlComponent> String getConfigKey(Class<T> clazz) {
+        if (!clazz.isAnnotationPresent(ComponentMetaData.class)) {
+            throw new NullPointerException("配置组件 "+ clazz.getName() +" 没有包含 ComponentMetaData 注解");
+        }
+        return clazz.getAnnotation(ComponentMetaData.class).type().getConfigKey();
+    }
 }
