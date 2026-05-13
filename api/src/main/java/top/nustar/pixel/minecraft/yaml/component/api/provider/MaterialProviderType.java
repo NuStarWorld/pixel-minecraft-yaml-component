@@ -32,7 +32,14 @@ public enum MaterialProviderType {
 
     Vault(s -> s.equals("VAULT"), null, null),
 
-    HamsterCurrency(s -> s.equals("HAMSTERCURRENCY"), null, null),
+    HamsterCurrency(s -> s.equals("HAMSTERCURRENCY"),
+            CurrencyProvider.Holder::getCurrencyProvider
+            ,
+            map -> {
+                String currencyId = map.get("currencyId");
+                Validation.notEmpty(currencyId, "currencyId");
+                return currencyId;
+            }),
     ;
 
     private final Predicate<String> predicate;

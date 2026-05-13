@@ -45,5 +45,4 @@ public interface ItemProvider extends EnvironmentAware, MaterialConsumer {
 
     <T> boolean isItem(T item, String itemId);
 
-    MaterialProviderType getType();
 }

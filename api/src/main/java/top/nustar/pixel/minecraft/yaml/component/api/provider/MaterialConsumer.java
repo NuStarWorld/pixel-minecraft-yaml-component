@@ -10,4 +10,6 @@ public interface MaterialConsumer {
     boolean check(ComponentContext<?> context, String materialId, int amount);
 
     void take(ComponentContext<?> context, String materialId, int amount);
+
+    MaterialProviderType getType();
 }
