@@ -13,14 +13,10 @@ import top.nustar.pixel.minecraft.yaml.component.api.provider.ItemProvider;
 public abstract class AbstractItemProvider implements ItemProvider {
 
     @Override
-    public boolean check(ComponentContext<?> context, String itemId, int amount) {
+    public double getAmount(ComponentContext<?> context, String itemId) {
         Player player = (Player) context.getHolder();
         int count = 0;
         for (ItemStack content : player.getInventory().getContents()) {
-            if (count >= amount) {
-                return true;
-            }
-
             if (content == null || content.getType() == Material.AIR) {
                 continue;
             }
@@ -29,7 +25,7 @@ public abstract class AbstractItemProvider implements ItemProvider {
                 count += content.getAmount();
             }
         }
-        return count >= amount;
+        return count;
     }
 
     @Override

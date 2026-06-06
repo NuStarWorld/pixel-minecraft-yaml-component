@@ -4,6 +4,7 @@ import lombok.Getter;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import top.nustar.pixel.minecraft.yaml.component.api.ComponentContext;
+import top.nustar.pixel.minecraft.yaml.component.api.component.result.MaterialCheckResult;
 import top.nustar.pixel.minecraft.yaml.component.api.expression.LineExpressionCache;
 import top.nustar.pixel.minecraft.yaml.component.api.expression.LineExpressionResult;
 import top.nustar.pixel.minecraft.yaml.component.api.component.NeedMaterialComponent;
@@ -41,7 +42,7 @@ public class NeedMaterialComponentImpl extends AbstractComponent implements Need
     }
 
     @Override
-    public boolean check(ComponentContext<?> context) {
+    public MaterialCheckResult check(ComponentContext<?> context) {
         int amount = getAmount(context).toInt();
         return type.check(context, metaData, amount);
     }

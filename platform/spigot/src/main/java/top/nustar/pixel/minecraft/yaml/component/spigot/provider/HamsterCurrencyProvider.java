@@ -23,8 +23,8 @@ public class HamsterCurrencyProvider implements CurrencyProvider {
     }
 
     @Override
-    public boolean check(ComponentContext<?> context, String materialId, int amount) {
-        return CurrencyAPI.hasPlayerCurrency(context.getHolderUid(), materialId, amount);
+    public double getAmount(ComponentContext<?> context, String materialId) {
+        return CurrencyAPI.getPlayerCurrency(context.getHolderUid(), materialId);
     }
 
     @Override

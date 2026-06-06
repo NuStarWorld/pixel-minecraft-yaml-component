@@ -1,6 +1,7 @@
 package top.nustar.pixel.minecraft.yaml.component.api.component;
 
 import top.nustar.pixel.minecraft.yaml.component.api.ComponentContext;
+import top.nustar.pixel.minecraft.yaml.component.api.component.result.MaterialCheckResult;
 import top.nustar.pixel.minecraft.yaml.component.api.expression.LineExpressionResult;
 import top.nustar.pixel.minecraft.yaml.component.api.provider.MaterialProviderType;
 
@@ -34,9 +35,9 @@ public interface NeedMaterialComponent extends YamlComponent {
     /**
      * 检查是否满足条件
      * @param context 组件上下文
-     * @return 是否满足条件
+     * @return 材料检查结果
      */
-    boolean check(ComponentContext<?> context);
+    MaterialCheckResult check(ComponentContext<?> context);
 
     /**
      * 执行材料消耗

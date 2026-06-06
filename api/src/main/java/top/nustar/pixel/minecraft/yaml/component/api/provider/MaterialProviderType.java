@@ -2,6 +2,7 @@ package top.nustar.pixel.minecraft.yaml.component.api.provider;
 
 import org.jetbrains.annotations.Nullable;
 import top.nustar.pixel.minecraft.yaml.component.api.ComponentContext;
+import top.nustar.pixel.minecraft.yaml.component.api.component.result.MaterialCheckResult;
 import top.nustar.pixel.minecraft.yaml.component.common.Lazy;
 import top.nustar.pixel.minecraft.yaml.component.common.Validation;
 
@@ -66,8 +67,9 @@ public enum MaterialProviderType {
         return null;
     }
 
-    public boolean check(ComponentContext<?> context, Map<String, String> metaData, int amount) {
-        return materialConsumerLazy.get().check(context, materialIdFunction.apply(metaData), amount);
+    public MaterialCheckResult check(ComponentContext<?> context, Map<String, String> metaData, int amount) {
+        String materialId = materialIdFunction.apply(metaData);
+        return materialConsumerLazy.get().check(context, materialId, amount, metaData);
     }
 
     public void take(ComponentContext<?> context, Map<String, String> metaData, int amount) {
