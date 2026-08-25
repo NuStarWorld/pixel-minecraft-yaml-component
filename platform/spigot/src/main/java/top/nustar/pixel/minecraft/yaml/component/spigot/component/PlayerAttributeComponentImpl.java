@@ -8,6 +8,7 @@ import top.nustar.pixel.minecraft.yaml.component.api.component.PlayerAttributeCo
 import top.nustar.pixel.minecraft.yaml.component.api.component.annotation.ComponentMetaData;
 import top.nustar.pixel.minecraft.yaml.component.api.expression.LineExpressionCache;
 import top.nustar.pixel.minecraft.yaml.component.api.expression.LineExpressionResult;
+import top.nustar.pixel.minecraft.yaml.component.api.provider.AttributeProvider;
 import top.nustar.pixel.minecraft.yaml.component.common.Validation;
 
 import java.util.ArrayList;
@@ -48,6 +49,8 @@ public class PlayerAttributeComponentImpl extends AbstractComponent implements P
 
     @Override
     public void applyAttribute(ComponentContext<?> componentContext) {
-        attributeProvider.applyAttributes(((Player) componentContext.getHolder()).getUniqueId(), attributeName, getAttributeList(componentContext));
+        AttributeProvider.Holder.getInstance().applyAttributes(
+                ((Player) componentContext.getHolder()).getUniqueId(),
+                attributeName, getAttributeList(componentContext));
     }
 }
