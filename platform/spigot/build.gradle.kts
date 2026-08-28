@@ -13,6 +13,7 @@ dependencies {
     compileOnly("me.clip:placeholderapi:2.10.4")
     compileOnly("org.serverct.ersha:AttributePlus:3.3.3.0")
     compileOnly("pers.neige.neigeitems:NeigeItems:1.21.62")
+    compileOnly("net.milkbowl.vault:Vault:1.7.3")
 
     testCompileOnly("org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT")
     testCompileOnly("me.clip:placeholderapi:2.10.4")

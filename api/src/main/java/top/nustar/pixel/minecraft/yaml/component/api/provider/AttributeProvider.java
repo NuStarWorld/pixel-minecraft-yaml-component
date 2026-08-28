@@ -3,6 +3,7 @@ package top.nustar.pixel.minecraft.yaml.component.api.provider;
 import top.nustar.pixel.minecraft.yaml.component.common.SafeServiceLoader;
 import top.nustar.pixel.minecraft.yaml.component.common.Validation;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,7 +22,7 @@ public interface AttributeProvider extends EnvironmentAware {
                     if (INSTANCE == null) {
                         INSTANCE = SafeServiceLoader.getServices(AttributeProvider.class).stream()
                                 .filter(AttributeProvider::isSupport)
-                                .findFirst()
+                                .max(Comparator.comparingInt(EnvironmentAware::getPriority))
                                 .orElse(null);
                     }
                 }

@@ -14,7 +14,7 @@ import cn.hamster3.currency.api.CurrencyAPI;
 public class HamsterCurrencyProvider implements CurrencyProvider {
     @Override
     public int getPriority() {
-        return 0;
+        return 1;
     }
 
     @Override

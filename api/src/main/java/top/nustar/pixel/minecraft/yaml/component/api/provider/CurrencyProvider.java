@@ -19,9 +19,13 @@ public interface CurrencyProvider extends EnvironmentAware, MaterialConsumer {
             if (currencyProviders == null) {
                 synchronized (Holder.class) {
                     if (currencyProviders == null) {
-                        currencyProviders = SafeServiceLoader.getServices(CurrencyProvider.class).stream()
+                        currencyProviders = SafeServiceLoader.getServices(CurrencyProvider.class, true).stream()
                                 .filter(EnvironmentAware::isSupport)
-                                .collect(Collectors.toMap(MaterialConsumer::getType, currencyProvider -> currencyProvider));
+                                .collect(Collectors.toMap(
+                                        CurrencyProvider::getType,
+                                        currencyProvider -> currencyProvider,
+                                        (first, second) -> first.getPriority() >= second.getPriority() ? first : second
+                                ));
                     }
                 }
             }

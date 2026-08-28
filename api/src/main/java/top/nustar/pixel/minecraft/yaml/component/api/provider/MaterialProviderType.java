@@ -31,7 +31,9 @@ public enum MaterialProviderType {
                 return itemId;
             }),
 
-    Vault(s -> s.equals("VAULT"), null, null),
+    Vault(s -> s.equals("VAULT"),
+            CurrencyProvider.Holder::getCurrencyProvider,
+            map -> ""),
 
     HamsterCurrency(s -> s.equals("HAMSTERCURRENCY"),
             CurrencyProvider.Holder::getCurrencyProvider

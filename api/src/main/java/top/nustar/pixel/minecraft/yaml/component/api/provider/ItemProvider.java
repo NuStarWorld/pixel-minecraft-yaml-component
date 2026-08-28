@@ -23,7 +23,11 @@ public interface ItemProvider extends EnvironmentAware, MaterialConsumer {
                     if (itemProviders == null) {
                         itemProviders = SafeServiceLoader.getServices(ItemProvider.class).stream()
                                 .filter(ItemProvider::isSupport)
-                                .collect(Collectors.toMap(ItemProvider::getType, itemProvider -> itemProvider));
+                                .collect(Collectors.toMap(
+                                        ItemProvider::getType,
+                                        itemProvider -> itemProvider,
+                                        (first, second) -> first.getPriority() >= second.getPriority() ? first : second
+                                ));
                     }
                 }
             }
