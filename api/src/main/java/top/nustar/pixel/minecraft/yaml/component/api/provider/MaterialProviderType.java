@@ -31,6 +31,15 @@ public enum MaterialProviderType {
                 return itemId;
             }),
 
+    SXITEM(s -> s.equals("SX") || s.equals("SXITEM") || s.equals("SX-ITEM"),
+            ItemProvider.Holder::getItemProvider,
+            map -> {
+                String itemId = map.get("itemId");
+                Validation.notEmpty(itemId, "itemId");
+                return itemId;
+            }),
+
+
     Vault(s -> s.equals("VAULT"),
             CurrencyProvider.Holder::getCurrencyProvider,
             map -> ""),
