@@ -8,6 +8,7 @@ import top.nustar.pixel.minecraft.yaml.component.api.ComponentContext;
 import top.nustar.pixel.minecraft.yaml.component.api.provider.CurrencyProvider;
 import top.nustar.pixel.minecraft.yaml.component.api.provider.MaterialProviderType;
 
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
@@ -44,12 +45,12 @@ public class VaultCurrencyProvider implements CurrencyProvider {
     }
 
     @Override
-    public double getAmount(ComponentContext<?> context, String materialId) {
+    public double getAmount(ComponentContext<?> context, String materialId, Map<String, String> metaData) {
         return requireEconomy().getBalance(Bukkit.getOfflinePlayer(context.getHolderUid()));
     }
 
     @Override
-    public void take(ComponentContext<?> context, String materialId, int amount) {
+    public void take(ComponentContext<?> context, String materialId, int amount, Map<String, String> metaData) {
         EconomyResponse economyResponse = requireEconomy().withdrawPlayer(
                 Bukkit.getOfflinePlayer(context.getHolderUid()), amount);
         if (economyResponse == null) {

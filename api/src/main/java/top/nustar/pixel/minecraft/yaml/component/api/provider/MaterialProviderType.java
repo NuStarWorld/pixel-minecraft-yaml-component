@@ -40,6 +40,15 @@ public enum MaterialProviderType {
             }),
 
 
+    MC(s -> s.equals("MC") || s.equals("MINECRAFT") || s.equals("VANILLA"),
+            ItemProvider.Holder::getItemProvider,
+            map -> {
+                String material = map.get("material");
+                Validation.notEmpty(material, "material");
+                return material;
+            }),
+
+
     Vault(s -> s.equals("VAULT"),
             CurrencyProvider.Holder::getCurrencyProvider,
             map -> ""),
@@ -84,6 +93,6 @@ public enum MaterialProviderType {
     }
 
     public void take(ComponentContext<?> context, Map<String, String> metaData, int amount) {
-        materialConsumerLazy.get().take(context, materialIdFunction.apply(metaData), amount);
+        materialConsumerLazy.get().take(context, materialIdFunction.apply(metaData), amount, metaData);
     }
 }

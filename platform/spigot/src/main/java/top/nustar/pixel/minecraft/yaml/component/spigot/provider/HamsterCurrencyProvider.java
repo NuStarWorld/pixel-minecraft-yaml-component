@@ -6,6 +6,8 @@ import top.nustar.pixel.minecraft.yaml.component.api.provider.CurrencyProvider;
 import top.nustar.pixel.minecraft.yaml.component.api.provider.MaterialProviderType;
 import cn.hamster3.currency.api.CurrencyAPI;
 
+import java.util.Map;
+
 /**
  * @author NuStar
  * @since 2026/5/13 16:24
@@ -23,12 +25,12 @@ public class HamsterCurrencyProvider implements CurrencyProvider {
     }
 
     @Override
-    public double getAmount(ComponentContext<?> context, String materialId) {
+    public double getAmount(ComponentContext<?> context, String materialId, Map<String, String> metaData) {
         return CurrencyAPI.getPlayerCurrency(context.getHolderUid(), materialId);
     }
 
     @Override
-    public void take(ComponentContext<?> context, String materialId, int amount) {
+    public void take(ComponentContext<?> context, String materialId, int amount, Map<String, String> metaData) {
         CurrencyAPI.takePlayerCurrency(context.getHolderUid(), materialId, amount);
     }
 

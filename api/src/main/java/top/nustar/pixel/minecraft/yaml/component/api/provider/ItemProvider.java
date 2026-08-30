@@ -47,6 +47,37 @@ public interface ItemProvider extends EnvironmentAware, MaterialConsumer {
      */
     <T> T getItem(ComponentContext<?> context, String itemId);
 
+    /**
+     * 获取物品，并使用材料元数据补充物品细节。
+     * <p>
+     * 原版物品没有物品 ID，显示名、lore 等信息只存在于 meta-data 中，因此需要这个重载。
+     * 默认忽略 metaData，交由需要它的 Provider 覆写。
+     *
+     * @param context 上下文
+     * @param itemId 物品id
+     * @param metaData 材料元数据
+     * @return 物品
+     * @param <T> 物品类型
+     */
+    default <T> T getItem(ComponentContext<?> context, String itemId, Map<String, String> metaData) {
+        return getItem(context, itemId);
+    }
+
     <T> boolean isItem(T item, String itemId);
+
+    /**
+     * 判断物品是否匹配，并使用材料元数据参与判定。
+     * <p>
+     * 默认忽略 metaData，交由需要它的 Provider 覆写。
+     *
+     * @param item 待判定物品
+     * @param itemId 物品id
+     * @param metaData 材料元数据
+     * @return 是否匹配
+     * @param <T> 物品类型
+     */
+    default <T> boolean isItem(T item, String itemId, Map<String, String> metaData) {
+        return isItem(item, itemId);
+    }
 
 }

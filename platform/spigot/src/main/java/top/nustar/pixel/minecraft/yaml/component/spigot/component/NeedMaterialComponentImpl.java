@@ -37,8 +37,31 @@ public class NeedMaterialComponentImpl extends AbstractComponent implements Need
         this.type = MaterialProviderType.of(section.getString("type"));
         this.amountExpression = LineExpressionCache.of(section.getString("amount"), lineExpression);
         for (Map.Entry<String, Object> metaDataEntry : section.getConfigurationSection("meta-data").getValues(false).entrySet()) {
-            metaData.put(metaDataEntry.getKey(), metaDataEntry.getValue().toString());
+            metaData.put(metaDataEntry.getKey(), toMetaDataValue(metaDataEntry.getValue()));
         }
+    }
+
+    /**
+     * 把 meta-data 的原始值转成字符串。
+     * <p>
+     * YAML 列表（如 lore）按行用 \n 连接，使配置里可以写自然的多行列表，
+     * 而 metaData 对外仍保持 {@code Map<String, String>}。
+     *
+     * @param value meta-data 原始值
+     * @return 字符串形式的值
+     */
+    private static String toMetaDataValue(Object value) {
+        if (value instanceof Iterable) {
+            StringBuilder builder = new StringBuilder();
+            for (Object line : (Iterable<?>) value) {
+                if (builder.length() > 0) {
+                    builder.append('\n');
+                }
+                builder.append(line == null ? "" : line.toString());
+            }
+            return builder.toString();
+        }
+        return value.toString();
     }
 
     @Override

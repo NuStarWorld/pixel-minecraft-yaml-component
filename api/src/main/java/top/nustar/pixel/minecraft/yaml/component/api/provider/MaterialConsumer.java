@@ -16,9 +16,10 @@ public interface MaterialConsumer {
      *
      * @param context 组件上下文
      * @param materialId 材料ID
+     * @param metaData 材料元数据
      * @return 当前材料数量
      */
-    double getAmount(ComponentContext<?> context, String materialId);
+    double getAmount(ComponentContext<?> context, String materialId, Map<String, String> metaData);
 
     /**
      * 检查材料是否满足需求
@@ -30,7 +31,7 @@ public interface MaterialConsumer {
      * @return 材料检查结果
      */
     default MaterialCheckResult check(ComponentContext<?> context, String materialId, int amount, Map<String, String> metaData) {
-        return MaterialCheckResult.of(getType(), materialId, amount, getAmount(context, materialId), metaData);
+        return MaterialCheckResult.of(getType(), materialId, amount, getAmount(context, materialId, metaData), metaData);
     }
 
     /**
@@ -39,8 +40,9 @@ public interface MaterialConsumer {
      * @param context 组件上下文
      * @param materialId 材料ID
      * @param amount 扣除数量
+     * @param metaData 材料元数据
      */
-    void take(ComponentContext<?> context, String materialId, int amount);
+    void take(ComponentContext<?> context, String materialId, int amount, Map<String, String> metaData);
 
     /**
      * 获取材料类型
