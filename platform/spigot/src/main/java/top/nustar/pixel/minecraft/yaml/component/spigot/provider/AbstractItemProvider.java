@@ -15,11 +15,24 @@ import java.util.Map;
  */
 public abstract class AbstractItemProvider implements ItemProvider {
 
+    /**
+     * 玩家主背包槽位数。
+     * <p>
+     * 各版本的玩家背包布局一致：0-35 是主背包（0-8 快捷栏，9-35 储物区），36-39 是盔甲槽，40 是副手。
+     * 因此按索引遍历前 36 格就能只吃主背包，且不依赖 1.9 才加入的 {@code getStorageContents()}，
+     * 在 1.8.8 上同样可用。
+     */
+    private static final int STORAGE_SIZE = 36;
+
     @Override
     public double getAmount(ComponentContext<?> context, String itemId, Map<String, String> metaData) {
         Player player = (Player) context.getHolder();
+        PlayerInventory inventory = player.getInventory();
+        int storageSize = Math.min(inventory.getSize(), STORAGE_SIZE);
+
         int count = 0;
-        for (ItemStack content : player.getInventory().getStorageContents()) {
+        for (int i = 0; i < storageSize; i++) {
+            ItemStack content = inventory.getItem(i);
             if (content == null || content.getType() == Material.AIR) {
                 continue;
             }
@@ -45,10 +58,11 @@ public abstract class AbstractItemProvider implements ItemProvider {
     public void take(ComponentContext<?> context, String materialId, int amount, Map<String, String> metaData) {
         Player player = (Player) context.getHolder();
         PlayerInventory inventory = player.getInventory();
-        ItemStack[] contents = inventory.getStorageContents();
+        int storageSize = Math.min(inventory.getSize(), STORAGE_SIZE);
 
         int total = 0;
-        for (ItemStack content : contents) {
+        for (int i = 0; i < storageSize; i++) {
+            ItemStack content = inventory.getItem(i);
             if (content == null || content.getType() == Material.AIR) {
                 continue;
             }
@@ -61,8 +75,8 @@ public abstract class AbstractItemProvider implements ItemProvider {
         }
 
         int reaming = amount;
-        for (int i = 0; i < contents.length && reaming > 0; i++) {
-            ItemStack content = contents[i];
+        for (int i = 0; i < storageSize && reaming > 0; i++) {
+            ItemStack content = inventory.getItem(i);
             if (content == null || content.getType() == Material.AIR) {
                 continue;
             }
@@ -74,6 +88,7 @@ public abstract class AbstractItemProvider implements ItemProvider {
                     inventory.setItem(i, null);
                 } else {
                     content.setAmount(left);
+                    inventory.setItem(i, content);
                 }
                 reaming -= takeAmount;
             }
